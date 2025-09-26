@@ -1,3 +1,4 @@
+// Initial array causes error message
 const slides = [
 	{
 		"image":"slide1.jpg",
@@ -18,123 +19,85 @@ const slides = [
 ];
 
 
-// Tests Tests
-
-const testTester = [
-	{
-		color: "red",
-		number: 2
-	},
-	{
-		color: "blue",
-		number: 4
-	},
-	{
-		color: "purple",
-		number: 3
-	},
-	{
-		color: "orange",
-		number: 6
-	},
-];
-
-console.log(testTester[0]);
-console.log(testTester[0].color);
-
-const slider = [
-	{
-		picture: "assets/images/slideshow/slide1.jpg",
-		text: "Impressions tous formats <span>en boutique et en ligne</span>",
-	},
-	{
-		picture: "assets/images/slideshow/slide2.jpg",
-		text: "Tirages haute définition grand format <span>pour vos bureaux et events</span>",
-	},
-	{
-		picture: "assets/images/slideshow/slide3.jpg",
-		text: "Grand choix de couleurs <span>de CMJN aux pantones</span>",
-	},
-	{
-		picture: "assets/images/slideshow/slide4.png",
-		text: "Autocollants <span>avec découpe laser sur mesure</span>",
-	},
-];
-
-console.log(slider[0].text,slider[0].span);
 
 
+// Declaring Items
 
-//function replacer (n) {
-	//let nouveau = document.createElement("p");
-	//nouveau.textContent = slider[n].text;
-	//let ancien = document.getElementsByClassName("placeholder");
-	//ancien.replaceWith(nouveau);
-	//let text = slider[n].text;
-	//ancien.appendChild(text);
-//};
-
-let newElement = document.createElement("p");
-
-// Tests End
-
-
-
-// Dots
-
-// Dots (Compteur?)
-
+// Nodelist containing all images within #banner
+let slidePics = document.querySelectorAll("#banner .banner-img");
+// Nodelist containing all '.dot' divs within the '.dots' div
 let listeDots = document.querySelectorAll(".dots .dot");
+// Placeholder declaration
+let slideText = document.querySelectorAll("#banner .text");
+//Declaring the Carousel Index
+let slideIndex = 1;
+//Declaring the Carousel itself: Displays the carousel image that corresponds to the slideIndex
+imgSlider(slideIndex);
 
-for (let i = 0; i < listeDots.length; i++) {
-	let activeDot = listeDots[0];
-	activeDot.classList.add("dot_selected");
-	console.log(activeDot);
+
+// Declaring Functions
+function imgSlider(slideIndex) {
+	//Initial i declaration
+	let i;
+
+	// Working on the pics
+	for (i = 0; i < slidePics.length; i++){
+		// Hides pics that are no longer selected
+		slidePics[i].style.display = "none";
+	};
+
+	// Working on the dots
+	for (i = 0; i < listeDots.length; i++){
+		// Removes the dot_selected class in dots that are no longer selected
+		listeDots[i].className = listeDots[i].className.replace(" dot_selected", "");
+	};
+
+	// Working on the text
+	for (i = 0; i < slideText.length; i++){
+		// Hides pics that are no longer selected
+		slideText[i].style.display = "none";
+	};
+		
+	// Shows the current pic
+	slidePics[slideIndex-1].style.display = "block";
+	// adds the dot_selected class to the dot matching the current pic
+	listeDots[slideIndex-1].className += " dot_selected";
+	// Shows the current text
+	slideText[slideIndex-1].style.display = "block";
+	
 };
 
+//BUTTONS
+//Event listeners recommended to avoid mixing HTML and JavaScript (by using 'onclick')
 
-
-// Function?
-
-// Creating a variable to 'hold' the record of which item is selected.
-let slideCounter = 1;
-
-
-// Function to increase counter in the slideshow (Onclick +1)
-function plusSlide (n) {
-	slideShow(slideCounter += n);
-};
-
-// Function to reduce counter in the slideshow (Onclick -1)
-function minusSlide (n) {
-	slideShow(slideCounter -= n);
-};
-
-//Fuse the 2 above?
-
-function slideShow (n) {
-// Variables
-	//let slideDots = document.getElementsByClassName("dot");
-	//let slidePicture = document.getElementsByClassName("banner-img");
-	let slideText = slider[n].text;
-	console.log(slideText)
-}
-
-// Event listeners
-
-//Flèches
-
-let slideArrowLeft = document.getElementById("arrowLeft");
-slideArrowLeft.addEventListener("click", () => {
-	console.log("arrow LEFT!");
-	console.log(slideShow(2));
+//Left Button
+//Note: Targeting an element by class name returns an ARRAY of items, even if there's only 1 element targeted by the class, [0] is needed.
+let prevButton = document.getElementsByClassName("arrow_left")[0];
+//Function for Previous Slide Button
+prevButton.addEventListener("click", function() {
+	console.log("Previous");
+	//If slider isn't the first pic, decrease Carousel index by 1
+	if (slideIndex > 1) {
+		imgSlider(slideIndex -= 1);
+	} else {
+		imgSlider(slideIndex = slidePics.length);
+	};
+	console.log(slideIndex);
 });
 
-let slideArrowRight = document.getElementById("arrowRight");
-slideArrowRight.addEventListener("click", () => {
-	console.log("arrow RIGHT!");
-	console.log(slideShow(3));
-
+//Right Button
+let nextButton = document.getElementsByClassName("arrow_right")[0];
+//Function for next Slide Button
+nextButton.addEventListener("click", function() {
+	console.log("Next");
+	//If slider isn't the last pic, increase Carousel index by 1
+	if (slideIndex < slidePics.length) {
+		imgSlider(slideIndex += 1);
+	} else {
+		//Otherwise, set it back to 1
+		imgSlider(slideIndex = 1);
+	};
+	console.log(slideIndex);
 });
 
 
