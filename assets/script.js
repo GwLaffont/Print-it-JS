@@ -72,9 +72,13 @@ function carousel (slideIndex){
 	//For Each dot element in listeDots
 	listeDots.forEach((dot, i) => {
 		//if any element possesses the dot_selected class, remove it
-		if (dot.classList.contains('dot_selected')) dot.classList.remove('dot_selected');
+		if (dot.classList.contains('dot_selected')) {
+			dot.classList.remove('dot_selected');
+		};
 		// Add the dot_selected class to the dot correspondant au slideIndex
-		if (i === slideIndex) dot.classList.add("dot_selected");
+		if (i === slideIndex) {
+			dot.classList.add("dot_selected");
+		}; 
 	})
 };
 
@@ -92,21 +96,18 @@ carousel(slideIndex);
 let prevButton = document.getElementsByClassName("arrow_left")[0];
 //Function for Previous Slide Button
 prevButton.addEventListener("click", function() {
-	console.log("Previous");
 	//If slider isn't the first pic, decrease Carousel index by 1
 	if (slideIndex > 0) {
 		carousel(slideIndex -= 1);
 	} else {
 		carousel(slideIndex = slidesTest.length-1);
 	};
-	console.log(slideIndex);
 });
 
 //Right Button
 let nextButton = document.getElementsByClassName("arrow_right")[0];
 //Function for next Slide Button
 nextButton.addEventListener("click", function() {
-	console.log("Next");
 	//If slider isn't the last pic, increase Carousel index by 1
 	if (slideIndex < slidesTest.length-1) {
 		carousel(slideIndex += 1);
@@ -114,7 +115,6 @@ nextButton.addEventListener("click", function() {
 		//Otherwise, set it back to 0
 		carousel(slideIndex = 0);
 	};
-	console.log(slideIndex);
 });
 
 
